@@ -1,13 +1,10 @@
-from pyrogram.types import (
-    InlineKeyboardButton,
-    InlineKeyboardMarkup,
-    InlineQueryResultPhoto,
-)
+from pyrogram.types import (InlineKeyboardButton,
+                            InlineKeyboardMarkup,
+                            InlineQueryResultPhoto)
 from youtubesearchpython.__future__ import VideosSearch
 
-from AnonXMusic import app
-from AnonXMusic.utils.inlinequery import answer
 from config import BANNED_USERS
+from AnonX import app
 
 
 @app.on_inline_query(~BANNED_USERS)
@@ -16,7 +13,9 @@ async def inline_query_handler(client, query):
     answers = []
     if text.strip() == "":
         try:
-            await client.answer_inline_query(query.id, results=answer, cache_time=10)
+            await client.answer_inline_query(
+                query.id, results=answer, cache_time=10
+            )
         except:
             return
     else:
@@ -26,32 +25,34 @@ async def inline_query_handler(client, query):
             title = (result[x]["title"]).title()
             duration = result[x]["duration"]
             views = result[x]["viewCount"]["short"]
-            thumbnail = result[x]["thumbnails"][0]["url"].split("?")[0]
+            thumbnail = result[x]["thumbnails"][0]["url"].split("?")[
+                0
+            ]
             channellink = result[x]["channel"]["link"]
             channel = result[x]["channel"]["name"]
             link = result[x]["link"]
             published = result[x]["publishedTime"]
-            description = f"{views} | {duration} ᴍɪɴᴜᴛᴇs | {channel}  | {published}"
+            description = f"{views} | {duration} Mins | {channel}  | {published}"
             buttons = InlineKeyboardMarkup(
                 [
                     [
                         InlineKeyboardButton(
-                            text="ʏᴏᴜᴛᴜʙᴇ 🎄",
+                            text="• ʏᴏᴜᴛᴜʙᴇ •",
                             url=link,
                         )
                     ],
                 ]
             )
             searched_text = f"""
-❄ <b>ᴛɪᴛʟᴇ :</b> <a href={link}>{title}</a>
+📌 **العنوان:** [{title}]({link})
 
-⏳ <b>ᴅᴜʀᴀᴛɪᴏɴ :</b> {duration} ᴍɪɴᴜᴛᴇs
-👀 <b>ᴠɪᴇᴡs :</b> <code>{views}</code>
-🎥 <b>ᴄʜᴀɴɴᴇʟ :</b> <a href={channellink}>{channel}</a>
-⏰ <b>ᴘᴜʙʟɪsʜᴇᴅ ᴏɴ :</b> {published}
+⏳ **المده:** {duration} دقائق
+👀 **المشاهدات:** `{views}`
+⏰ **تاريخ الرفع:** {published}
+🎥 **القناه:** {channel}
+📎 **رابط القناه:** [ᴠɪsɪᴛ ᴄʜᴀɴɴᴇʟ]({channellink})
 
-
-<u><b>➻ ɪɴʟɪɴᴇ sᴇᴀʀᴄʜ ᴍᴏᴅᴇ ʙʏ {app.name}</b></u>"""
+💖 **قناة السورس** @def_Zoka""" 
             answers.append(
                 InlineQueryResultPhoto(
                     photo_url=thumbnail,
@@ -63,6 +64,8 @@ async def inline_query_handler(client, query):
                 )
             )
         try:
-            return await client.answer_inline_query(query.id, results=answers)
+            return await client.answer_inline_query(
+                query.id, results=answers
+            )
         except:
             return

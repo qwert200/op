@@ -3,26 +3,35 @@ from datetime import datetime
 from pyrogram import filters
 from pyrogram.types import Message
 
-from AnonXMusic import app
-from AnonXMusic.core.call import Anony
-from AnonXMusic.utils import bot_sys_stats
-from AnonXMusic.utils.decorators.language import language
-from AnonXMusic.utils.inline import supp_markup
-from config import BANNED_USERS, PING_IMG_URL
+from config import BANNED_USERS
+from strings import get_command
+from strings.filters import command
+from AnonX import app
+from AnonX.core.call import Anon
+from AnonX.utils import bot_sys_stats
+from AnonX.utils.decorators.language import language
+from AnonX.utils.inline.play import close_keyboard
+
+### Commands
+PING_COMMAND = get_command("PING_COMMAND")
 
 
-@app.on_message(filters.command(["ping", "alive"]) & ~BANNED_USERS)
+@app.on_message(
+    command(PING_COMMAND)
+)
 @language
 async def ping_com(client, message: Message, _):
-    start = datetime.now()
+    Idd = app.id
     response = await message.reply_photo(
-        photo=PING_IMG_URL,
-        caption=_["ping_1"].format(app.mention),
+        photo=f"https://telegra.ph/file/571ceb62922f0c4fe31de.jpg",
+        caption=_["ping_1"],
     )
-    pytgping = await Anony.ping()
+    start = datetime.now()
+    pytgping = await Anon.ping()
     UP, CPU, RAM, DISK = await bot_sys_stats()
     resp = (datetime.now() - start).microseconds / 1000
     await response.edit_text(
-        _["ping_2"].format(resp, app.mention, UP, RAM, CPU, DISK, pytgping),
-        reply_markup=supp_markup(_),
+        _["ping_2"].format(
+            resp, app.name, UP, RAM, CPU, DISK, pytgping
+        ),
     )

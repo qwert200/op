@@ -1,112 +1,175 @@
 import asyncio
-import time
 
 from pyrogram import filters
-from pyrogram.enums import ChatMembersFilter
-from pyrogram.types import CallbackQuery, Message
+from pyrogram.types import CallbackQuery, Message, ChatPrivileges
 
-from AnonXMusic import app
-from AnonXMusic.core.call import Anony
-from AnonXMusic.misc import db
-from AnonXMusic.utils.database import get_assistant, get_authuser_names, get_cmode
-from AnonXMusic.utils.decorators import ActualAdminCB, AdminActual, language
-from AnonXMusic.utils.formatters import alpha_to_int, get_readable_time
 from config import BANNED_USERS, adminlist, lyrical
+from strings import get_command
+from AnonX import app
+from strings.filters import command
+from AnonX.core.call import Anon
+from AnonX.misc import db
+from pyrogram.enums import ChatMembersFilter
+from AnonX.utils.database import get_authuser_names, get_cmode
+from AnonX.utils.decorators import (ActualAdminCB, AdminActual,
+                                         language)
+from AnonX.utils.formatters import alpha_to_int
 
-rel = {}
+### Multi-Lang Commands
+RELOAD_COMMAND = get_command("RELOAD_COMMAND")
+RESTART_COMMAND = get_command("RESTART_COMMAND")
 
 
 @app.on_message(
-    filters.command(["admincache", "reload", "refresh"]) & filters.group & ~BANNED_USERS
+    command(RELOAD_COMMAND)
+    & filters.group
+    & ~filters.edited
+    & ~BANNED_USERS
 )
 @language
 async def reload_admin_cache(client, message: Message, _):
     try:
-        if message.chat.id not in rel:
-            rel[message.chat.id] = {}
-        else:
-            saved = rel[message.chat.id]
-            if saved > time.time():
-                left = get_readable_time((int(saved) - int(time.time())))
-                return await message.reply_text(_["reload_1"].format(left))
-        adminlist[message.chat.id] = []
-        async for user in app.get_chat_members(
-            message.chat.id, filter=ChatMembersFilter.ADMINISTRATORS
-        ):
+        chat_id = message.chat.id
+        authusers = await get_authuser_names(chat_id)
+        adminlist[chat_id] = []
+        async for user in app.get_chat_members(chat_id, filter=ChatMembersFilter.ADMINISTRATORS):
             if user.privileges.can_manage_video_chats:
-                adminlist[message.chat.id].append(user.user.id)
-        authusers = await get_authuser_names(message.chat.id)
+                adminlist[chat_id].append(user.user.id)
         for user in authusers:
             user_id = await alpha_to_int(user)
-            adminlist[message.chat.id].append(user_id)
-        now = int(time.time()) + 180
-        rel[message.chat.id] = now
-        await message.reply_text(_["reload_2"])
+            adminlist[chat_id].append(user_id)
+        await message.reply_text(_["admin_20"])
     except:
-        await message.reply_text(_["reload_3"])
+        await message.reply_text(
+            "ғᴀɪʟᴇᴅ ᴛᴏ ʀᴇғʀᴇsʜ ᴀᴅᴍɪɴs ʟɪsᴛ, ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ ᴩʀᴏᴍᴏᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ."
+        )
 
 
-@app.on_message(filters.command(["reboot"]) & filters.group & ~BANNED_USERS)
+@app.on_message(
+    filters.command(RESTART_COMMAND)
+    & filters.group
+    & ~filters.edited
+    & ~BANNED_USERS
+)
 @AdminActual
 async def restartbot(client, message: Message, _):
-    mystic = await message.reply_text(_["reload_4"].format(app.mention))
+    mystic = await message.reply_text(
+        f"◍انتظر جاري إعادة التشغيل... "
+    )
     await asyncio.sleep(1)
     try:
         db[message.chat.id] = []
-        await Anony.stop_stream_force(message.chat.id)
-    except:
-        pass
-    userbot = await get_assistant(message.chat.id)
-    try:
-        if message.chat.username:
-            await userbot.resolve_peer(message.chat.username)
-        else:
-            await userbot.resolve_peer(message.chat.id)
+        await Anon.stop_stream(message.chat.id)
     except:
         pass
     chat_id = await get_cmode(message.chat.id)
     if chat_id:
         try:
-            got = await app.get_chat(chat_id)
-        except:
-            pass
-        userbot = await get_assistant(chat_id)
-        try:
-            if got.username:
-                await userbot.resolve_peer(got.username)
-            else:
-                await userbot.resolve_peer(chat_id)
+            await app.get_chat(chat_id)
         except:
             pass
         try:
             db[chat_id] = []
-            await Anony.stop_stream_force(chat_id)
+            await Anon.stop_stream(chat_id)
         except:
             pass
-    return await mystic.edit_text(_["reload_5"].format(app.mention))
+    return await mystic.edit_text(
+        f"Restarted successfully."
+    )
+
+
+@app.on_message(
+    command(RELOAD_COMMAND)
+    & filters.channel
+    & ~filters.edited
+    & ~BANNED_USERS
+)
+@language
+async def reload_admin_cache(client, message: Message, _):
+    try:
+        chat_id = message.chat.id
+        authusers = await get_authuser_names(chat_id)
+        adminlist[chat_id] = []
+        async for user in app.get_chat_members(chat_id, filter=ChatMembersFilter.ADMINISTRATORS):
+            if user.privileges.can_manage_video_chats:
+                adminlist[chat_id].append(user.user.id)
+        for user in authusers:
+            user_id = await alpha_to_int(user)
+            adminlist[chat_id].append(user_id)
+        await message.reply_text(_["admin_20"])
+    except:
+        await message.reply_text(
+            "ғᴀɪʟᴇᴅ ᴛᴏ ʀᴇғʀᴇsʜ ᴀᴅᴍɪɴs ʟɪsᴛ, ᴍᴀᴋᴇ sᴜʀᴇ ʏᴏᴜ ᴩʀᴏᴍᴏᴛᴇᴅ ᴛʜᴇ ʙᴏᴛ."
+        )
+
+
+@app.on_message(
+    filters.command(RESTART_COMMAND)
+    & filters.channel
+    & ~filters.edited
+    & ~BANNED_USERS
+)
+@language
+async def restartbot(client, message: Message, _):
+    mystic = await message.reply_text(
+        f"◍ انتظر جاري إعادة التشغيل... "
+    )
+    await asyncio.sleep(1)
+    try:
+        db[message.chat.id] = []
+        await Anon.stop_stream(message.chat.id)
+    except:
+        pass
+    chat_id = await get_cmode(message.chat.id)
+    if chat_id:
+        try:
+            await app.get_chat(chat_id)
+        except:
+            pass
+        try:
+            db[chat_id] = []
+            await Anon.stop_stream(chat_id)
+        except:
+            pass
+    return await mystic.edit_text(
+        f"Restarted successfully."
+    )
 
 
 @app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
 async def close_menu(_, CallbackQuery):
     try:
-        await CallbackQuery.answer()
         await CallbackQuery.message.delete()
-        await CallbackQuery.message.reply_text(
-            f"Cʟᴏsᴇᴅ ʙʏ : {CallbackQuery.from_user.mention}"
-        )
+        await CallbackQuery.answer()
     except:
-        pass
+        return
 
 
-@app.on_callback_query(filters.regex("stop_downloading") & ~BANNED_USERS)
+@app.on_callback_query(filters.regex("close") & ~BANNED_USERS)
+async def close_menu(_, CallbackQuery):
+    try:
+        await CallbackQuery.message.delete()
+        await CallbackQuery.answer()
+    except:
+        return
+
+
+@app.on_callback_query(
+    filters.regex("stop_downloading") & ~BANNED_USERS
+)
 @ActualAdminCB
 async def stop_download(client, CallbackQuery: CallbackQuery, _):
-    message_id = CallbackQuery.message.id
+    message_id = CallbackQuery.message.message_id
     task = lyrical.get(message_id)
     if not task:
-        return await CallbackQuery.answer(_["tg_4"], show_alert=True)
+        return await CallbackQuery.answer(
+            "ᴅᴏᴡɴʟᴏᴀᴅ ᴀʟʀᴇᴀᴅʏ ᴄᴏᴍᴩʟᴇᴛᴇᴅ.", show_alert=True
+        )
     if task.done() or task.cancelled():
-        return await CallbackQuery.answer(_["tg_5"], show_alert=True)
+        return await CallbackQuery.answer(
+            "ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴀʟʀᴇᴀᴅʏ ᴄᴏᴍᴩʟᴇᴛᴇᴅ ᴏʀ ᴄᴀɴᴄᴇʟʟᴇᴅ.",
+            show_alert=True,
+        )
     if not task.done():
         try:
             task.cancel()
@@ -114,10 +177,16 @@ async def stop_download(client, CallbackQuery: CallbackQuery, _):
                 lyrical.pop(message_id)
             except:
                 pass
-            await CallbackQuery.answer(_["tg_6"], show_alert=True)
+            await CallbackQuery.answer(
+                "ᴅᴏᴡɴʟᴏᴀᴅɪɢ ᴄᴀɴᴄᴇʟʟᴇᴅ.", show_alert=True
+            )
             return await CallbackQuery.edit_message_text(
-                _["tg_7"].format(CallbackQuery.from_user.mention)
+                f"ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ ᴩʀᴏᴄᴇss ᴄᴀɴᴄᴇʟʟᴇᴅ ʙʏ {CallbackQuery.from_user.mention}"
             )
         except:
-            return await CallbackQuery.answer(_["tg_8"], show_alert=True)
-    await CallbackQuery.answer(_["tg_9"], show_alert=True)
+            return await CallbackQuery.answer(
+                "ғᴀɪʟᴇᴅ ᴛᴏ ᴄᴀɴᴄᴇʟ ᴅᴏᴡɴʟᴏᴀᴅɪɴɢ...", show_alert=True
+            )
+    await CallbackQuery.answer(
+        "ғᴀɪʟᴇᴅ ᴛᴏ ʀᴇᴄᴏɢɴɪᴢᴇ ᴛʜᴇ ᴏɴɢᴏɪɴɢ ᴛᴀsᴋ.", show_alert=True
+    )

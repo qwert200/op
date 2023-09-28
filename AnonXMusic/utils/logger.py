@@ -1,32 +1,36 @@
-from pyrogram.enums import ParseMode
+from config import LOG, LOG_GROUP_ID
+from AnonX import app
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from AnonX.utils.database import is_on_off
 
-from AnonXMusic import app
-from AnonXMusic.utils.database import is_on_off
-from config import LOGGER_ID
 
-
-async def play_logs(message, streamtype):
-    if await is_on_off(2):
+async def play_logss(message, client, streamtype):
+    if await is_on_off(LOG):
+        if message.chat.username:
+            chatusername = f"@{message.chat.username}"
+        else:
+            try:
+                chatusername = await client.export_chat_invite_link(message.chat.id)
+            except Exception as e:
+                chatusername = "لايوجد"
+        keyboard = InlineKeyboardMarkup(inline_keyboard=[
+            [InlineKeyboardButton(f"{message.chat.title}", url=f"{chatusername}")],
+        ])
         logger_text = f"""
-<b>{app.mention} ᴘʟᴀʏ ʟᴏɢ</b>
+**تم التشغيل في القناه**
 
-<b>ᴄʜᴀᴛ ɪᴅ :</b> <code>{message.chat.id}</code>
-<b>ᴄʜᴀᴛ ɴᴀᴍᴇ :</b> {message.chat.title}
-<b>ᴄʜᴀᴛ ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.chat.username}
+**ايدي القناه:** [`{message.chat.id}`]
 
-<b>ᴜsᴇʀ ɪᴅ :</b> <code>{message.from_user.id}</code>
-<b>ɴᴀᴍᴇ :</b> {message.from_user.mention}
-<b>ᴜsᴇʀɴᴀᴍᴇ :</b> @{message.from_user.username}
+**المطلوب:** {message.text}
 
-<b>ǫᴜᴇʀʏ :</b> {message.text.split(None, 1)[1]}
-<b>sᴛʀᴇᴀᴍᴛʏᴘᴇ :</b> {streamtype}"""
-        if message.chat.id != LOGGER_ID:
+**نوع التشغيل:** {streamtype}"""
+        if message.chat.id != LOG_GROUP_ID:
             try:
                 await app.send_message(
-                    chat_id=LOGGER_ID,
-                    text=logger_text,
-                    parse_mode=ParseMode.HTML,
+                    LOG_GROUP_ID,
+                    f"{logger_text}",
                     disable_web_page_preview=True,
+                reply_markup=keyboard,
                 )
             except:
                 pass

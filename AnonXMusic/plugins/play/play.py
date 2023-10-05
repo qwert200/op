@@ -29,9 +29,9 @@ from config import BANNED_USERS, lyrical
     filters.command(
         [
             "تشغيل",
-            "تشغيل فيديو",
-            "تشغيل",
-            "تشغيل فيديو",
+            "فيديو",
+            "شغل",
+            "play",
             "playforce",
             "vplayforce",
             "cplayforce",

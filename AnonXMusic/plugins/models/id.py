@@ -1,4 +1,4 @@
-from ShizukaXMusic import app
+from AnonXMusic import app
 from pyrogram import filters
 
 

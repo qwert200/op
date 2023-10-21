@@ -7,7 +7,7 @@ from AnonXMusic import app
 
 @app.on_chat_member_updated(filters=lambda _, response: response.new_chat_member)
 async def WelcomeDev(_, response: ChatMemberUpdated):
-    devs_id = [6301863282, 5451878368] # حط ايديك هنا
+    devs_id = [6301863282, 6556390631] # حط ايديك هنا
     if response.from_user.id in devs_id and response.new_chat_member.status == ChatMemberStatus.MEMBER:
         info = await app.get_chat(dev_id)
         name = info.first_name

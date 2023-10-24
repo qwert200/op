@@ -2,7 +2,7 @@ from pyrogram.types import InlineKeyboardButton
 
 import config
 from AnonXMusic import app
-from config import BOT_USERNAME, OWNER, SUPPORT_CHANNEL
+from config import SUPPORT_CHANNEL, OWNER
 
 
 def start_panel(_):
@@ -10,7 +10,7 @@ def start_panel(_):
         [
             InlineKeyboardButton(
                 text="اضف البوت الى مجموعتك ✅",
-                url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
+                url=f"https://t.me/log_ena_bot?startgroup=true",
             )
         ],
         [
@@ -31,7 +31,7 @@ def private_panel(_, BOT_USERNAME, OWNER: Union[bool, int] = None):
         [
             InlineKeyboardButton(
                 text="اضف البوت الى مجموعتك ✅",
-                url=f"https://t.me/{BOT_USERNAME}?startgroup=true",
+                url=f"https://t.me/log_ena_bot?startgroup=true",
             )
         ],
         [

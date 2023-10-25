@@ -12,7 +12,6 @@ from AnonXMusic.utils.database import get_assistant
 @app.on_message(
     command(["مطور", "مطور البوت", "المطور"])
     & filters.group
-    & ~filters.edited
     & ~BANNED_USERS
 )
 async def dev(c: Client, message: Message):

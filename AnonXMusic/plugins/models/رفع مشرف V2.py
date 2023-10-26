@@ -1,6 +1,5 @@
 from pyrogram import Client,filters
 from pyrogram.types import ForceReply,ChatPrivileges,InlineKeyboardButton,InlineKeyboardMarkup
-from pyromod import listen
 from pyrogram.enums import ChatMemberStatus
 from AnonXMusic import app
 

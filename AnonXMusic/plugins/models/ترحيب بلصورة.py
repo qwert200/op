@@ -6,7 +6,7 @@ from AnonXMusic import app
 
 chat_id = -1001946093187
 
-welcome_photo = "path_to_your_welcome_photo.jpg"
+welcome_photo = "https://telegra.ph/file/1e50ffb0c02092200bd52.jpg"
 
 
 @app.on_message(filters.new_chat_members & filters.group)

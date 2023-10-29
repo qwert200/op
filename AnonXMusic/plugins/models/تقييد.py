@@ -4,7 +4,7 @@ from AnonXMusic import app
 
 #𝙎 .࿆𝙉 .࿆𝙍 </>
 
-@app.on_message(filters.command("تقييد"))
+@app.on_message(filters.command("تقييد", ""))
 def restrict_user(client, message):
     user_id = message.reply_to_message.from_user.id
     
@@ -26,5 +26,5 @@ def restrict_user(client, message):
     
     client.send_message(message.chat.id, f"ابشر قيدتة {user_id} بنجاح ✓.")
     
-#𝙥𝙧𝙤𝙜𝙧𝙖𝙢𝙢𝙚𝙧 : T.me/programer_senzir
+#####𝙥𝙧𝙤𝙜𝙧𝙖𝙢𝙢𝙚𝙧 : T.me/programer_senzir
 #تغير الحقوق دليل فشلك

@@ -11,10 +11,6 @@ def restrict_user(client, message):
     permissions = ChatPermissions(
         can_send_messages=False,
         can_send_media_messages=False,
-        can_send_stickers=False,
-        can_send_animations=False,
-        can_send_games=False,
-        can_use_inline_bots=False,
         can_add_web_page_previews=False,
         can_send_polls=False,
         can_change_info=False,
@@ -30,5 +26,5 @@ def restrict_user(client, message):
     
     client.send_message(message.chat.id, f"ابشر قيدتة {user_id} بنجاح ✓.")
     
-#####𝙥𝙧𝙤𝙜𝙧𝙖𝙢𝙢𝙚𝙧 : T.me/programer_senzir
+#𝙥𝙧𝙤𝙜𝙧𝙖𝙢𝙢𝙚𝙧 : T.me/programer_senzir
 #تغير الحقوق دليل فشلك

@@ -19,5 +19,3 @@ def is_admin(user_id):
 def unban_user(client: Client, message: Message):
     # يتم هنا كتابة الكود الخاص بإلغاء تقييد المستخدم
     # يمكنك استخدام ما تراه مناسبًا حسب متطلباتك
-
-

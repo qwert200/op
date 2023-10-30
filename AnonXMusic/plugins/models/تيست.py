@@ -4,17 +4,9 @@ from AnonXMusic import app
 
 
 
-@app.on_message(filters.command('كتم') & filters.group)
-async def mute_user(client, message):
-    if message.from_user.is_admin:
-        if message.reply_to_message and message.reply_to_message.from_user:
-            user_id = message.reply_to_message.from_user.id
-            chat_id = message.chat.id
-
-            await client.restrict_chat_member(chat_id, user_id, can_send_messages=False)
-
-            await message.reply(f"تم كتم المستخدم {user_id} في المجموعة.√")
-        else:
-            await message.reply("يرجى الرد على رسالة المستخدم الذي ترغب في كتمه.√")
-    else:
-        await message.reply("عذرًا، هذا الأمر متاح فقط للمشرفين.√")
+# تعريف الأمر الذي يقوم بكتم المستخدم
+@app.on_message(filters.command(["كتم"]) & filters.user("is_admin"))
+def mute_user(client, message):
+    # قم هنا بتنفيذ الكود الخاص بكتم المستخدم، على سبيل المثال:
+    user = message.reply_to_message.from_user
+    client.restrict_chat_member(message.chat.id, user.id, until_date=None)

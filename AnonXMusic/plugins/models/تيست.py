@@ -1,5 +1,5 @@
 from pyrogram import Client, filters
-from pyrogram.types import Message,
+from pyrogram.types import Message
 from pyrogram.enums import ChatMemberStatus
 from AnonXMusic import app
 
@@ -7,8 +7,7 @@ from AnonXMusic import app
 
 @app.on_message(filters.command('كتم') & filters.group)
 async def mute_user(client, message):
-    member = await app.get_chat_member(message.chat.id, message.from_user.id)
-    if member.status in [ChatMemberStatus.ADMINISTRATOR , ChatMemberStatus.OWNER]:
+    if message.from_user.is_admin:
         if message.reply_to_message and message.reply_to_message.from_user:
             user_id = message.reply_to_message.from_user.id
             chat_id = message.chat.id
@@ -19,4 +18,4 @@ async def mute_user(client, message):
         else:
             await message.reply("يرجى الرد على رسالة المستخدم الذي ترغب في كتمه.√")
     else:
-        await message.reply("عذرًا، هذا الامر يخص المشرفين.√")
+        await message.reply("عذرًا، هذا الأمر متاح فقط للمشرفين.√")

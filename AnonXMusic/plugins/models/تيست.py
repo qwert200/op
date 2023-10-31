@@ -1,5 +1,6 @@
 from pyrogram import Client, filters
-from pyrogram.enums import Message, ChatMemberStatus
+from pyrogram.types import Message,
+from pyrogram.enums import ChatMemberStatus
 from AnonXMusic import app
 
 

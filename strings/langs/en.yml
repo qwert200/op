@@ -192,7 +192,7 @@ stream_2 : "➥ <b>بدء البث |</b>\n\n<b>➥ نوع البث :</b> بث م
 
 CLOSE_BUTTON : "إغلاق"
 BACK_BUTTON : "رجوع"
-
+SENZIR_BUTTON: "المطور"
 
 S_B_1 : "أضفني"
 S_B_2 : "الدعم"

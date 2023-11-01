@@ -5,9 +5,9 @@ from AnonXMusic import app
 
 
 
-@app.on_message(filters.command('كتم') & filters.group)
-async def mute_user(client, message):
-    if message.from_user.is_admin:
+@app.on_message(filters.command('كتم', '') & filters.group)
+async def mute_user(client, message: Message):
+    if (await message.chat.get_chat_member(message.from_user.id)).status in [ChatMemberStatus.ADMINISTRATOR, ChatMemberStatus.OWNER]:
         if message.reply_to_message and message.reply_to_message.from_user:
             user_id = message.reply_to_message.from_user.id
             chat_id = message.chat.id

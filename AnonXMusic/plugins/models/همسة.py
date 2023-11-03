@@ -25,7 +25,7 @@ def hms_start(client, message):
   if message.text.split(" ", 1)[-1].startswith("hms"):
     global waiting_for_hms, hms_ids
     hms_ids = message.text
-    waiting_for_hms = True
+    @app.on_message(filters.command("start"), group=3773)
     message.reply_text(
       "-> أرسل الهمسه الآن.\n√",
       reply_markup = InlineKeyboardMarkup ([[

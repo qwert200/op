@@ -3,11 +3,11 @@ from AnonXMusic import app
 
 
 @app.on_message(filtres.command('start') & filtres.private)
-def command1(bot, message):
+def command1(app, message):
 	bot.send._message(message.chat.id, "helo my bot test" )
 
 @app.on_message(filtres.command('senzir') & filtres.private)
-def command2(bot, message):
+def command2(app, message):
 	message.reply_tex( "شكرا سيدي سينزر لبرمجتي" )
 	
 	#welcomebot
@@ -20,7 +20,7 @@ def command2(bot, message):
 		message.reply_text(WELCOME_MESSAGE)
 		
 		@app.on_message(filtres.command('سيارات') & filtres.private)
-def command3(bot, message):
+def command3(app, message):
 	app.send_photo( message.chat.id, "https://imgur.com/gallery/ZNwYBBz")
 	app.send_photo( message.chat.id, "https://imgur.com/gallery/jydi4")
 	app.send_photo( message.chat.id, "https://imgur.com/gallery/12a9s")

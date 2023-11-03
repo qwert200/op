@@ -1,4 +1,4 @@
-om pyrogram import Client, filters
+from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 import os
 from AnonXMusic import app

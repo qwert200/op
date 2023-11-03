@@ -28,4 +28,3 @@ def command3(bot, message):
 	app.send_photo( message.chat.id, "https://imgur.com/gallery/YeSt0qU")
 	app.send_photo( message.chat.id, "https://imgur.com/gallery/IyEp7mf")
 	app.send_photo( message.chat.id, "https://imgur.com/gallery/gzgaon6")
-	

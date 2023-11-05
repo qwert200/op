@@ -3,7 +3,7 @@ from pyrogram import filters
 from AnonXMusic import app
 
 #test
-@app.on_message(filtres.command('سيارات'))
+@app.on_message(filters.command('سيارات'))
 def command(app, message):
  app.send_photo( message.chat.id, "https://imgur.com/gallery/ZNwYBBz")
  app.send_photo( message.chat.id, "https://imgur.com/gallery/jydi4")

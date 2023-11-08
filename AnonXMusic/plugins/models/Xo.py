@@ -2,12 +2,11 @@ from pyrogram import Client, filters
 from pyrogram.errors import BadRequest
 from AnonXMusic import app
 
-
 board = [[" " for _ in range(3)] for _ in range(3)]
 bot_turn = False
 
 
-@Client.on_message(filters.command("اكس او"))
+@Client.on_message(filters.command("اكس او", ""))
 async def start_game(_, message):
     global board, bot_turn
     board = [[" " for _ in range(3)] for _ in range(3)]

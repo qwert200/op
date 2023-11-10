@@ -12,7 +12,7 @@ from pyrogram.errors.exceptions.bad_request_400 import PasswordHashInvalid
 from pyrogram.errors.exceptions.not_acceptable_406 import PhoneNumberInvalid
 from pyrogram.errors.exceptions.bad_request_400 import PhoneCodeInvalid
 
-OWNER_ID = int("5108562302") #ايدي الادمن 
+OWNER_ID = int("6301863282") #ايدي الادمن 
 #bot = app
 #app = bot
 

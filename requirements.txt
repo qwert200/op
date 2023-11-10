@@ -1,6 +1,7 @@
 aiofiles
 aiohttp
 asyncio
+kvsqlite
 beautifulsoup4
 dnspython
 ffmpeg-python

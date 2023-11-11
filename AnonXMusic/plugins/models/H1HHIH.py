@@ -48,7 +48,7 @@ if not botdb.get("db"+token.split(":")[0]):
    botdb.set("db"+token.split(":")[0], data)
 
 if not ownerID in botdb.get("db"+token.split(":")[0])["admins"]:
-   data = botdb.get("db"+token.split(":")[0])
+   data = botdb.get("db"+ app.bot_token.split(":")[0])
    data["admins"].append(ownerID)
    botdb.set("db"+token.split(":")[0], data)
 

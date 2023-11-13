@@ -39,7 +39,7 @@ STARTKEY = InlineKeyboardMarkup(
          ]
        ]
      )
-if not botdb.get("db"+token.split(":")[0]):
+if not botdb.get("db"+app.bot_token.split(":")[0]):
    data = {
      "users":[],
      "admins":[],

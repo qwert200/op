@@ -123,7 +123,7 @@ async def on_messages(c,m):
          text += f"\n𖡋 𝐀𝐂𝐂 𝑳𝐈𝐍𝐊 ⌯  **{mention}**"
          return await m.reply(text,quote=True)
    
-   if m.text and botdb.get(f"ban:{m.from_user.id}") and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_tokensplit(":")[0])["admins"]):
+   if m.text and botdb.get(f"ban:{m.from_user.id}") and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       botdb.delete(f"broad:{m.from_user.id}")
       botdb.delete(f"whois:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
@@ -153,7 +153,7 @@ async def on_messages(c,m):
           botdb.set("db"+bot.bot_token.split(":")[0],data)
           return await m.reply(text,quote=True)
    
-   if m.text and botdb.get(f"unban:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.text and botdb.get(f"unban:{m.from_user.id}") and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       botdb.delete(f"broad:{m.from_user.id}")
       botdb.delete(f"whois:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
@@ -164,10 +164,10 @@ async def on_messages(c,m):
       if not getUser:
         return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
       else:
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
+        if getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
           return await m.reply(f"– لا يمكنك الغاء حظر ⌯ {getUser['mention']} ⌯ لأنه ادمن",quote=True)
         else:
-          if not getUser["id"] in botdb.get("db"+token.split(":")[0])["banned"]:
+          if not getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["banned"]:
             return await m.reply(f"– لا يمكنك الغاء حظر ⌯ {getUser['mention']} ⌯ لأنه غير محظور مسبقاً",quote=True)
           name=getUser["mention"]
           id=getUser["id"]
@@ -178,12 +178,12 @@ async def on_messages(c,m):
           text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
           text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
           text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
+          data = botdb.get("db"+bot.bot_token.split(":")[0])
           data["banned"].remove(id)
-          botdb.set("db"+token.split(":")[0],data)
+          botdb.set("db"+bot.bot_token.split(":")[0],data)
           return await m.reply(text,quote=True)
    
-   if m.text and botdb.get(f"add:{m.from_user.id}") and m.from_user.id == ownerID:
+   if m.text and botdb.get(f"add:{m.from_user.id}") and m.from_user.id == OWNER_ID:
       botdb.delete(f"broad:{m.from_user.id}")
       botdb.delete(f"whois:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
@@ -194,9 +194,9 @@ async def on_messages(c,m):
       if not getUser:
         return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
       else:
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
+        if getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
           return await m.reply(f"– لا يمكنك رفع ⌯ {getUser['mention']} ⌯ لأنه ادمن مسبقاً",quote=True)
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["banned"]:
+        if getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["banned"]:
           return await m.reply(f"– لا يمكنك رفع ⌯ {getUser['mention']} ⌯ لأنه محظور",quote=True)
         else:          
           name=getUser["mention"]
@@ -208,9 +208,9 @@ async def on_messages(c,m):
           text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
           text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
           text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
+          data = botdb.get("db"+bot.bot_token.split(":")[0])
           data["admins"].append(id)
-          botdb.set("db"+token.split(":")[0],data)
+          botdb.set("db"+bot.bot_token.split(":")[0],data)
           return await m.reply(text,quote=True)
    
    if m.text and botdb.get(f"rem:{m.from_user.id}") and m.from_user.id == OWNER_ID:
@@ -224,7 +224,7 @@ async def on_messages(c,m):
       if not getUser:
         return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
       else:
-        if not getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
+        if not getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
           return await m.reply(f"– لا يمكنك تنزيل ⌯ {getUser['mention']} ⌯ لأنه مو ادمن",quote=True)
         if getUser["id"] == OWNER_ID:
           return await m.reply(f"– لا يمكنك تنزيل ⌯ {getUser['mention']} ⌯ لأنه مالك البوت",quote=True)
@@ -238,9 +238,9 @@ async def on_messages(c,m):
           text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
           text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
           text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+bot.bot_token.split(":")[0])
+          data = botdb.get("db"+bot.bot_bot.bot_token.split(":")[0])
           data["admins"].remove(id)
-          botdb.set("db"+token.split(":")[0],data)
+          botdb.set("db"+bot.bot_token.split(":")[0],data)
           return await m.reply(text,quote=True)
 
 @bot.on_callback_query()
@@ -310,7 +310,7 @@ async def on_Callback(c,m):
       botdb.delete(f"unban:{m.from_user.id}")
       
    if m.data == "stats" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
-      users = len(botdb.get("db"+token.split(":")[0])["users"])
+      users = len(botdb.get("db"+bot.bot_token.split(":")[0])["users"])
       await m.answer(f"• احصائيات البوت ⌯ {users}", show_alert=True,cache_time=10)
       
    if m.data == "adminstats" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
@@ -329,7 +329,7 @@ async def on_Callback(c,m):
       await m.message.reply(text,quote=True)
    
    if m.data == "bannedstats" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
-      bans = botdb.get("db"+token.split(":")[0])["banned"]
+      bans = botdb.get("db"+bot.bot_token.split(":")[0])["banned"]
       if not bans:  return await m.answer("• لا يوجد محظورين", show_alert=True,cache_time=60)
       await m.answer(f"• احصائيات المحظورين ⌯ {len(bans)}\n• سيتم ارسال بيانات كل المحظورين", show_alert=True,cache_time=60)
       text = "- المحظورين:\n\n"

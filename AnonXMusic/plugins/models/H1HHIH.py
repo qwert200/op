@@ -45,16 +45,16 @@ if not botdb.get("db"+bot.bot_token.split(":")[0]):
      "admins":[],
      "banned":[],
    }
-   botdb.set("db"+token.split(":")[0], data)
+   botdb.set("db"+bot.bot_token.split(":")[0], data)
 
-if not ownerID in botdb.get("db"+token.split(":")[0])["admins"]:
+if not ownerID in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
    data = botdb.get("db"+ app.bot_token.split(":")[0])
    data["admins"].append(ownerID)
    botdb.set("db"+token.split(":")[0], data)
 
 @bot.on_message(filters.command("start") & filters.private)
 async def on_start(c,m):
-   getDB = botdb.get("db"+token.split(":")[0])
+   getDB = botdb.get("db"+bot.bot_token.split(":")[0])
    if m.from_user.id in getDB["banned"]:
      return await message.reply("🚫 تم حظرك من استخدام البوت",quote=True)
    if m.from_user.id == ownerID or m.from_user.id in getDB["admins"]:
@@ -62,7 +62,7 @@ async def on_start(c,m):
    if not m.from_user.id in getDB["users"]:
       data = getDB
       data["users"].append(m.from_user.id)
-      botdb.set("db"+token.split(":")[0], data)
+      botdb.set("db"+bot.bot_token.split(":")[0], data)
       for admin in data["admins"]:
          text = f"– New user stats the bot :"
          username = "@"+m.from_user.username if m.from_user.username else "None"
@@ -88,7 +88,7 @@ async def on_messages(c,m):
       text = "**— جاري إرسال الإذاعة إلى المستخدمين**\n"
       reply = await m.reply(text,quote=True)
       count=0
-      users=botdb.get("db"+token.split(":")[0])["users"]
+      users=botdb.get("db"+bot.bot_token.split(":")[0])["users"]
       for user in users:
         try:
           await m.copy(user)
@@ -150,7 +150,7 @@ async def on_messages(c,m):
           text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
           data = botdb.get("db"+token.split(":")[0])
           data["banned"].append(id)
-          botdb.set("db"+token.split(":")[0],data)
+          botdb.set("db"+bot.bot_token.split(":")[0],data)
           return await m.reply(text,quote=True)
    
    if m.text and botdb.get(f"unban:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):

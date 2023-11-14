@@ -50,7 +50,7 @@ if not botdb.get("db"+bot.bot_token.split(":")[0]):
 if not OWNER_ID in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
    data = botdb.get("db"+ bot.bot_token.split(":")[0])
    data["admins"].append(OWNER_ID)
-   botdb.set("db"+token.split(":")[0], data)
+   botdb.set("db"+bot.bot_token.split(":")[0], data)
 
 @bot.on_message(filters.command("start") & filters.private)
 async def on_start(c,m):

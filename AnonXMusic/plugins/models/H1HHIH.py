@@ -48,7 +48,7 @@ if not botdb.get("db"+bot.bot_token.split(":")[0]):
    botdb.set("db"+bot.bot_token.split(":")[0], data)
 
 if not OWNER_ID in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
-   data = botdb.get("db"+ app.bot_token.split(":")[0])
+   data = botdb.get("db"+ bot.bot_token.split(":")[0])
    data["admins"].append(OWNER_ID)
    botdb.set("db"+token.split(":")[0], data)
 
@@ -57,7 +57,7 @@ async def on_start(c,m):
    getDB = botdb.get("db"+bot.bot_token.split(":")[0])
    if m.from_user.id in getDB["banned"]:
      return await message.reply("🚫 تم حظرك من استخدام البوت",quote=True)
-   if m.from_user.id == ownerID or m.from_user.id in getDB["admins"]:
+   if m.from_user.id == OWNER_ID or m.from_user.id in getDB["admins"]:
      await m.reply(f"**• أهلاً بك ⌯ {m.from_user.mention}\n• إليك لوحة تحكم الادمن**",reply_markup=STARTKEY,quote=True)
    if not m.from_user.id in getDB["users"]:
       data = getDB

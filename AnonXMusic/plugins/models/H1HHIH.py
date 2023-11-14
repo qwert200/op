@@ -134,7 +134,7 @@ async def on_messages(c,m):
       if not getUser:
         return await m.reply("– لا يوجد مستخدم بهذا الآيدي",quote=True)
       else:
-        if getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
+        if getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
           return await m.reply(f"– لا يمكنك حظر ⌯ {getUser['mention']} ⌯ لأنه ادمن",quote=True)
         else:
           if getUser["id"] in botdb.get("db"+token.split(":")[0])["banned"]:
@@ -213,7 +213,7 @@ async def on_messages(c,m):
           botdb.set("db"+token.split(":")[0],data)
           return await m.reply(text,quote=True)
    
-   if m.text and botdb.get(f"rem:{m.from_user.id}") and m.from_user.id == ownerID:
+   if m.text and botdb.get(f"rem:{m.from_user.id}") and m.from_user.id == OWNER_ID:
       botdb.delete(f"broad:{m.from_user.id}")
       botdb.delete(f"whois:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
@@ -226,7 +226,7 @@ async def on_messages(c,m):
       else:
         if not getUser["id"] in botdb.get("db"+token.split(":")[0])["admins"]:
           return await m.reply(f"– لا يمكنك تنزيل ⌯ {getUser['mention']} ⌯ لأنه مو ادمن",quote=True)
-        if getUser["id"] == ownerID:
+        if getUser["id"] == OWNER_ID:
           return await m.reply(f"– لا يمكنك تنزيل ⌯ {getUser['mention']} ⌯ لأنه مالك البوت",quote=True)
         else:
           name=getUser["mention"]
@@ -238,14 +238,14 @@ async def on_messages(c,m):
           text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
           text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
           text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
+          data = botdb.get("db"+bot.bot_token.split(":")[0])
           data["admins"].remove(id)
           botdb.set("db"+token.split(":")[0],data)
           return await m.reply(text,quote=True)
 
 @bot.on_callback_query()
 async def on_Callback(c,m):      
-   if m.data == "broadcast" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.data == "broadcast" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       await m.edit_message_text("• أرسل الإذاعة الآن ( صورة ، نص ، ملصق ، ملف ، صوت )\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
       botdb.set(f"broad:{m.from_user.id}",True)
       botdb.delete(f"whois:{m.from_user.id}")
@@ -254,7 +254,7 @@ async def on_Callback(c,m):
       botdb.delete(f"rem:{m.from_user.id}")
       botdb.delete(f"unban:{m.from_user.id}")
       
-   if m.data == "whois" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.data == "whois" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       await m.edit_message_text("• ارسل الآن ايدي المستخدم للكشف عنه\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
       botdb.set(f"whois:{m.from_user.id}",True)
       botdb.delete(f"broad:{m.from_user.id}")
@@ -263,7 +263,7 @@ async def on_Callback(c,m):
       botdb.delete(f"rem:{m.from_user.id}")
       botdb.delete(f"unban:{m.from_user.id}")
       
-   if m.data == "ban" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.data == "ban" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       await m.edit_message_text("• ارسل الآن ايدي المستخدم لحظره\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
       botdb.set(f"ban:{m.from_user.id}",True)
       botdb.delete(f"broad:{m.from_user.id}")
@@ -272,7 +272,7 @@ async def on_Callback(c,m):
       botdb.delete(f"rem:{m.from_user.id}")
       botdb.delete(f"unban:{m.from_user.id}")
    
-   if m.data == "unban" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.data == "unban" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       await m.edit_message_text("• ارسل الآن ايدي المستخدم لرفع حظره\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
       botdb.set(f"unban:{m.from_user.id}",True)
       botdb.delete(f"broad:{m.from_user.id}")
@@ -281,7 +281,7 @@ async def on_Callback(c,m):
       botdb.delete(f"rem:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
    
-   if m.data == "addadmin" and m.from_user.id == ownerID:
+   if m.data == "addadmin" and m.from_user.id == OWNER_ID:
       await m.edit_message_text("• ارسل الآن ايدي المستخدم لرفعه ادمن\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
       botdb.set(f"add:{m.from_user.id}",True)
       botdb.delete(f"broad:{m.from_user.id}")
@@ -290,7 +290,7 @@ async def on_Callback(c,m):
       botdb.delete(f"rem:{m.from_user.id}")
       botdb.delete(f"unban:{m.from_user.id}")
    
-   if m.data == "remadmin" and m.from_user.id == ownerID:
+   if m.data == "remadmin" and m.from_user.id == OWNER_ID:
       await m.edit_message_text("• ارسل الآن ايدي المستخدم لرفعه ادمن\n• للإلغاء ارسل الغاء ",reply_markup=InlineKeyboardMarkup ([[InlineKeyboardButton ("رجوع",callback_data="back")]]))
       botdb.set(f"rem:{m.from_user.id}",True)
       botdb.delete(f"broad:{m.from_user.id}")
@@ -299,7 +299,7 @@ async def on_Callback(c,m):
       botdb.delete(f"add:{m.from_user.id}")
       botdb.delete(f"unban:{m.from_user.id}")
 
-   if m.data == "back" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.data == "back" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       #await m.answer("• تم الرجوع بنجاح والغاء كل شي ",show_alert=True)
       await m.edit_message_text(f"**• أهلاً بك ⌯ {m.from_user.mention}\n• إليك لوحة تحكم الادمن**",reply_markup=STARTKEY)
       botdb.delete(f"broad:{m.from_user.id}")
@@ -309,16 +309,16 @@ async def on_Callback(c,m):
       botdb.delete(f"rem:{m.from_user.id}")
       botdb.delete(f"unban:{m.from_user.id}")
       
-   if m.data == "stats" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.data == "stats" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       users = len(botdb.get("db"+token.split(":")[0])["users"])
       await m.answer(f"• احصائيات البوت ⌯ {users}", show_alert=True,cache_time=10)
       
-   if m.data == "adminstats" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
-      admins = len(botdb.get("db"+token.split(":")[0])["admins"])
+   if m.data == "adminstats" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
+      admins = len(botdb.get("db"+bot.bot_token.split(":")[0])["admins"])
       await m.answer(f"• احصائيات الادمنية ⌯ {admins}\n• سيتم ارسال بيانات كل آدمن", show_alert=True,cache_time=60)
       text = "- الادمنية:\n\n"
       count = 1
-      for admin in botdb.get("db"+token.split(":")[0])["admins"]:
+      for admin in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
          if count==101: break
          getUser = botdb.get(f"USER:{admin}")
          mention=getUser["mention"]
@@ -328,7 +328,7 @@ async def on_Callback(c,m):
       text+="\n\n—"
       await m.message.reply(text,quote=True)
    
-   if m.data == "bannedstats" and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.data == "bannedstats" and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       bans = botdb.get("db"+token.split(":")[0])["banned"]
       if not bans:  return await m.answer("• لا يوجد محظورين", show_alert=True,cache_time=60)
       await m.answer(f"• احصائيات المحظورين ⌯ {len(bans)}\n• سيتم ارسال بيانات كل المحظورين", show_alert=True,cache_time=60)

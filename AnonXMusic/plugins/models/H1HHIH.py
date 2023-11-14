@@ -78,7 +78,7 @@ async def on_start(c,m):
 
 @bot.on_message(filters.private & ~filters.service)
 async def on_messages(c,m):       
-   if botdb.get(f"broad:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if botdb.get(f"broad:{m.from_user.id}") and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       botdb.delete(f"broad:{m.from_user.id}")
       botdb.delete(f"whois:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
@@ -100,7 +100,7 @@ async def on_messages(c,m):
           pass
       return True
    
-   if m.text and botdb.get(f"whois:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.text and botdb.get(f"whois:{m.from_user.id}") and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]):
       botdb.delete(f"broad:{m.from_user.id}")
       botdb.delete(f"whois:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
@@ -123,7 +123,7 @@ async def on_messages(c,m):
          text += f"\n𖡋 𝐀𝐂𝐂 𝑳𝐈𝐍𝐊 ⌯  **{mention}**"
          return await m.reply(text,quote=True)
    
-   if m.text and botdb.get(f"ban:{m.from_user.id}") and (m.from_user.id == ownerID or m.from_user.id in botdb.get("db"+token.split(":")[0])["admins"]):
+   if m.text and botdb.get(f"ban:{m.from_user.id}") and (m.from_user.id == OWNER_ID or m.from_user.id in botdb.get("db"+bot.bot_tokensplit(":")[0])["admins"]):
       botdb.delete(f"broad:{m.from_user.id}")
       botdb.delete(f"whois:{m.from_user.id}")
       botdb.delete(f"ban:{m.from_user.id}")
@@ -137,7 +137,7 @@ async def on_messages(c,m):
         if getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["admins"]:
           return await m.reply(f"– لا يمكنك حظر ⌯ {getUser['mention']} ⌯ لأنه ادمن",quote=True)
         else:
-          if getUser["id"] in botdb.get("db"+token.split(":")[0])["banned"]:
+          if getUser["id"] in botdb.get("db"+bot.bot_token.split(":")[0])["banned"]:
             return await m.reply(f"– لا يمكنك حظر ⌯ {getUser['mention']} ⌯ لأنه محظور مسبقاً",quote=True)
           name=getUser["mention"]
           id=getUser["id"]
@@ -148,7 +148,7 @@ async def on_messages(c,m):
           text += f"\n𖡋 𝐍𝐀𝐌𝐄 ⌯  {name}"
           text += f"\n𖡋 𝑳𝐀𝐍𝐆 ⌯  {language}"
           text += f"\n𖡋 𝐈𝐃 ⌯  `{id}`"
-          data = botdb.get("db"+token.split(":")[0])
+          data = botdb.get("db"+bot.bot_token.split(":")[0])
           data["banned"].append(id)
           botdb.set("db"+bot.bot_token.split(":")[0],data)
           return await m.reply(text,quote=True)

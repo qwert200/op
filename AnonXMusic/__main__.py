@@ -11,7 +11,7 @@ from AnonXMusic.misc import sudo
 from AnonXMusic.plugins import ALL_MODULES
 from AnonXMusic.utils.database import get_banned_users, get_gbanned
 from config import BANNED_USERS
-
+from AnonXMusic.plugins.models.azan import azan
 
 async def init():
     if (

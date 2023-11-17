@@ -23,6 +23,7 @@ azan_enabled_chats = []
 async def handle_azan_command(c, msg):
     chat_id = msg.chat.id
     if msg.text == "تفعيل الاذان":
+        if not len(azan_enabled_chats): await asyncio.create_task(azan_scheduler())
         if chat_id in azan_enabled_chats:
             await msg.reply_text("الأذان مفعل بالفعل في هذه المجموعة")
         else:
@@ -103,4 +104,4 @@ async def azan_scheduler():
             await asyncio.sleep(177)
         await asyncio.sleep(2)
 
-asyncio.create_task(azan_scheduler())
+

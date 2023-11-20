@@ -9,7 +9,8 @@ languages_present = {}
 
 def get_string(lang: str):
     return languages[lang]
-
+def get_command(value: str) -> List:
+    return commands["command"][value]
 
 for filename in os.listdir(r"./strings/langs/"):
     if "en" not in languages:

